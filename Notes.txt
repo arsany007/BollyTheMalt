@@ -1,0 +1,11 @@
+References:
+
+https://docs.godotengine.org/en/stable/getting_started/first_2d_game/index.html
+
+Maze Generation
+	https://www.youtube.com/watch?v=qkiyzjTqm9o&ab_channel=KidsCanCode
+	https://github.com/kidscancode/godot3_procgen_demos
+
+Layering
+	https://www.youtube.com/watch?v=8es3sg7i1u8&ab_channel=Gamefromscratch
+	https://devga.me/tutorials/godot2d/creating-the-enemies/
