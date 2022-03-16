@@ -32,6 +32,7 @@ func _physics_process(delta):
 	var collision_detected = move_and_collide( velocity * delta )
 	
 	if collision_detected != null:
+		velocity = velocity.bounce(collision_detected.normal)
 		emit_signal("hit",collision_detected)
 	
 	position.x = clamp(position.x, 0, screen_size.x)

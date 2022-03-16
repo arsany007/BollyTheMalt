@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Maze.gd" type="Script" id=1]
 [ext_resource path="res://TileMap.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://art/treasure3.png" type="Texture" id=5]
 [ext_resource path="res://PlayerKini.tscn" type="PackedScene" id=6]
 [ext_resource path="res://TreasuresMap.gd" type="Script" id=7]
+[ext_resource path="res://Treasures.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Maze.tres" type="TileSet" id=18]
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
@@ -93,11 +94,14 @@ format = 1
 script = ExtResource( 2 )
 
 [node name="TreasuresMap" type="TileMap" parent="."]
+visible = false
 tile_set = SubResource( 1 )
 format = 1
 script = ExtResource( 7 )
 
 [node name="PlayerKini" parent="." instance=ExtResource( 6 )]
+
+[node name="Treasures" parent="." instance=ExtResource( 8 )]
 
 [connection signal="signal_rotate_cell" from="TileMap" to="." method="_on_TileMap_signal_rotate_cell"]
 [connection signal="hit" from="PlayerKini" to="TreasuresMap" method="_on_PlayerKini_hit"]
