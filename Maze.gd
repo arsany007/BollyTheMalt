@@ -1,28 +1,19 @@
 extends Node2D
 
+onready var globals = get_node("Globals")
+onready var Map = $TileMap
+
 const N = 1
 const E = 2
 const S = 4
 const W = 8
 
-const TREASURES_NUMBER = 3
-
 var cell_walls = {Vector2(0, -1): N, Vector2(1, 0): E, 
 				  Vector2(0, 1): S, Vector2(-1, 0): W}
 
-const tile_size = 64  # tile size (in pixels)
-const maze_width = 16  # width of map (in tiles)
-const maze_height = 9  # height of map (in tiles)
-const center_cell_init = tile_size/2
-
-# get a reference to the map for convenience
-onready var Map = $TileMap
-onready var TreasuresMap = $TreasuresMaponready 
-onready var Player1 = $Player
-
 func _ready():
 	randomize()
-	Map.cell_size = Vector2(tile_size,tile_size)
+	Map.cell_size = Vector2(globals.tile_size,globals.tile_size)
 	make_maze()
 	
 func check_neighbors(cell, unvisited):
@@ -38,8 +29,8 @@ func make_maze():
 	var stack = []
 	# fill the map with solid tiles
 	Map.clear()
-	for x in range(maze_width):
-		for y in range(maze_height):
+	for x in range(globals.maze_width):
+		for y in range(globals.maze_height):
 			unvisited.append(Vector2(x, y))
 			Map.set_cellv(Vector2(x, y), N|E|S|W)
 	var current = Vector2(0, 0)
@@ -62,7 +53,6 @@ func make_maze():
 			current = stack.pop_back()
 		#yield(get_tree(), 'idle_frame')
 	#RandomRotate()
-	#AddTreasures()
 	AddIcecreams()
 
 func AddIcecreams():
@@ -79,26 +69,17 @@ func AddIcecreams():
 		icecream_instance = icecream_node.instance()
 		#icecream_node.Sprite.texture = load("res://art/" + sprite_key)
 
-		var rand_x = tile_size* rand_range(1,maze_width-1)
-		var rand_y = tile_size* rand_range(1,maze_height-1)
-		icecream_instance.position = Vector2(center_cell_init+ rand_x, center_cell_init+ rand_y )
+		var rand_x = globals.tile_size* rand_range(1,globals.maze_width-1)
+		var rand_y = globals.tile_size* rand_range(1,globals.maze_height-1)
+		icecream_instance.position = Vector2(globals.center_cell_init+ rand_x, globals.center_cell_init+ rand_y )
 
 		add_child(icecream_instance)
 		
 		icecreams[icecream_key] = icecream_instance.position
-	
-func AddTreasures():
-	
-	for i in TREASURES_NUMBER:
-		var rand_x = rand_range(1,maze_width-1)
-		var rand_y = rand_range(1,maze_height-1)
-		
-		TreasuresMap.set_cellv(Vector2(rand_x, rand_y ), i)
-	
 
 func RandomRotate():
-	for x in range(1,maze_width-2): # disable rotating corners (player's init pos)
-		for y in range(1,maze_height-2):
+	for x in range(1,globals.maze_width-2): # disable rotating corners (player's init pos)
+		for y in range(1,globals.maze_height-2):
 			Rotate(Vector2(x, y),rand_range(0,3))
 
 
@@ -122,8 +103,8 @@ func _on_TileMap_signal_rotate_cell(cell):
 	Rotate(cell, 1)
 
 func position_to_cell(position):
-	var cell_x = floor( position.x / tile_size )
-	var cell_y = floor( position.y / tile_size )
+	var cell_x = floor( position.x / globals.tile_size )
+	var cell_y = floor( position.y / globals.tile_size )
 	return Vector2(cell_x,cell_y)
 
 
