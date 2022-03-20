@@ -10,18 +10,19 @@ const TREASURES_NUMBER = 3
 var cell_walls = {Vector2(0, -1): N, Vector2(1, 0): E, 
 				  Vector2(0, 1): S, Vector2(-1, 0): W}
 
-var tile_size = 64  # tile size (in pixels)
-var width = 16  # width of map (in tiles)
-var height = 9  # height of map (in tiles)
+const tile_size = 64  # tile size (in pixels)
+const maze_width = 16  # width of map (in tiles)
+const maze_height = 9  # height of map (in tiles)
+const center_cell_init = tile_size/2
 
 # get a reference to the map for convenience
 onready var Map = $TileMap
-onready var TreasuresMap = $TreasuresMap
+onready var TreasuresMap = $TreasuresMaponready 
 onready var Player1 = $Player
 
 func _ready():
 	randomize()
-	tile_size = Map.cell_size
+	Map.cell_size = Vector2(tile_size,tile_size)
 	make_maze()
 	
 func check_neighbors(cell, unvisited):
@@ -37,8 +38,8 @@ func make_maze():
 	var stack = []
 	# fill the map with solid tiles
 	Map.clear()
-	for x in range(width):
-		for y in range(height):
+	for x in range(maze_width):
+		for y in range(maze_height):
 			unvisited.append(Vector2(x, y))
 			Map.set_cellv(Vector2(x, y), N|E|S|W)
 	var current = Vector2(0, 0)
@@ -61,23 +62,43 @@ func make_maze():
 			current = stack.pop_back()
 		#yield(get_tree(), 'idle_frame')
 	#RandomRotate()
-	AddTreasures()
+	#AddTreasures()
+	AddIcecreams()
 
+func AddIcecreams():
+	var icecream_node = null	
+	var icecream_instance = null
+	var init_pos_val = Vector2(0,0)
+	var icecreams = {"blackberry.png":init_pos_val, "bubblegum.png":init_pos_val ,"cherry.png":init_pos_val ,
+				"cola.png":init_pos_val ,"creamsoda.png":init_pos_val ,"lemon.png":init_pos_val 
+				,"lime.png":init_pos_val ,"melon.png":init_pos_val ,"mojito.png":init_pos_val 
+				,"orange.png":init_pos_val ,"passionfruit.png":init_pos_val ,"strawberry.png":init_pos_val}
+				
+	for icecream_key in icecreams.keys():	
+		icecream_node = load("res://IceCream.tscn")
+		icecream_instance = icecream_node.instance()
+		#icecream_node.Sprite.texture = load("res://art/" + sprite_key)
+
+		var rand_x = tile_size* rand_range(1,maze_width-1)
+		var rand_y = tile_size* rand_range(1,maze_height-1)
+		icecream_instance.position = Vector2(center_cell_init+ rand_x, center_cell_init+ rand_y )
+
+		add_child(icecream_instance)
+		
+		icecreams[icecream_key] = icecream_instance.position
+	
 func AddTreasures():
+	
 	for i in TREASURES_NUMBER:
-		var rand_x = rand_range(1,15)
-		var rand_y = rand_range(1,8)
+		var rand_x = rand_range(1,maze_width-1)
+		var rand_y = rand_range(1,maze_height-1)
 		
 		TreasuresMap.set_cellv(Vector2(rand_x, rand_y ), i)
 	
 
-	#var treasure_scene = load("res://Treasure.tscn")
-	#var treasure_instance = treasure_scene.instance()
-	#add_child(treasure_instance)
-
 func RandomRotate():
-	for x in range(1,width-2): # disable rotating corners (player's init pos)
-		for y in range(1,height-2):
+	for x in range(1,maze_width-2): # disable rotating corners (player's init pos)
+		for y in range(1,maze_height-2):
 			Rotate(Vector2(x, y),rand_range(0,3))
 
 
@@ -101,8 +122,8 @@ func _on_TileMap_signal_rotate_cell(cell):
 	Rotate(cell, 1)
 
 func position_to_cell(position):
-	var cell_x = floor( position.x / 64 )
-	var cell_y = floor( position.y / 64 )
+	var cell_x = floor( position.x / tile_size )
+	var cell_y = floor( position.y / tile_size )
 	return Vector2(cell_x,cell_y)
 
 

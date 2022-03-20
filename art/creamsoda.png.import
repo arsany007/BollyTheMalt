@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/treasure3.png-666cbd4d97e7531389f7c4d75b782373.stex"
+path="res://.import/creamsoda.png-9db4721d97f186f0a945e426818b4d36.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/treasure3.png"
-dest_files=[ "res://.import/treasure3.png-666cbd4d97e7531389f7c4d75b782373.stex" ]
+source_file="res://art/creamsoda.png"
+dest_files=[ "res://.import/creamsoda.png-9db4721d97f186f0a945e426818b4d36.stex" ]
 
 [params]
 
