@@ -2,6 +2,8 @@ extends Node2D
 
 onready var globals = get_node("Globals")
 onready var Map = $TileMap
+onready var HUD = $HUD
+
 
 const N = 1
 const E = 2
@@ -58,24 +60,19 @@ func make_maze():
 func AddIcecreams():
 	var icecream_node = null	
 	var icecream_instance = null
-	var init_pos_val = Vector2(0,0)
-	var icecreams = {"blackberry.png":init_pos_val, "bubblegum.png":init_pos_val ,"cherry.png":init_pos_val ,
-				"cola.png":init_pos_val ,"creamsoda.png":init_pos_val ,"lemon.png":init_pos_val 
-				,"lime.png":init_pos_val ,"melon.png":init_pos_val ,"mojito.png":init_pos_val 
-				,"orange.png":init_pos_val ,"passionfruit.png":init_pos_val ,"strawberry.png":init_pos_val}
 				
-	for icecream_key in icecreams.keys():	
+	for icecream_key in globals.icecreams.keys():	
 		icecream_node = load("res://IceCream.tscn")
 		icecream_instance = icecream_node.instance()
-		#icecream_node.Sprite.texture = load("res://art/" + sprite_key)
+		icecream_instance.get_node("Sprite").texture = load("res://art/" + icecream_key)
 
 		var rand_x = globals.tile_size* rand_range(1,globals.maze_width-1)
 		var rand_y = globals.tile_size* rand_range(1,globals.maze_height-1)
 		icecream_instance.position = Vector2(globals.center_cell_init+ rand_x, globals.center_cell_init+ rand_y )
-
 		add_child(icecream_instance)
 		
-		icecreams[icecream_key] = icecream_instance.position
+		globals.icecreams[icecream_key] = icecream_instance.position
+
 
 func RandomRotate():
 	for x in range(1,globals.maze_width-2): # disable rotating corners (player's init pos)
@@ -91,7 +88,7 @@ func Rotate(cell, num_rotate):
 		var i = num_rotate
 		while i >= num_rotate:
 			var cell_index = Map.get_cellv(cell)
-			var new_cell = RightRotate(Map.get_cellv(cell))
+			var new_cell = RightRotate(cell_index)
 			Map.set_cellv(cell, new_cell)
 			i = i-1
 
@@ -99,12 +96,15 @@ func RightRotate(n):
 	return (n >> 1)|(n << (4 - 1)) & 0xF
 
 
-func _on_TileMap_signal_rotate_cell(cell):
-	Rotate(cell, 1)
-
 func position_to_cell(position):
 	var cell_x = floor( position.x / globals.tile_size )
 	var cell_y = floor( position.y / globals.tile_size )
 	return Vector2(cell_x,cell_y)
+	
+	
+func _on_TileMap_signal_rotate_cell(cell):
+	Rotate(cell, 1)
 
 
+func _on_IceCream_ice_cream_hit():
+	HUD.update_score(globals.player1_score)

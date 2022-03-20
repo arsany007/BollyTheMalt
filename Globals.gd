@@ -13,3 +13,11 @@ const tile_size = 64  # tile size (in pixels)
 const maze_width = 16  # width of map (in tiles)
 const maze_height = 9  # height of map (in tiles)
 const center_cell_init = tile_size/2
+
+var init_pos_val = Vector2(0,0)
+var icecreams = {"blackberry.png":init_pos_val, "bubblegum.png":init_pos_val ,"cherry.png":init_pos_val ,
+				"cola.png":init_pos_val ,"creamsoda.png":init_pos_val ,"lemon.png":init_pos_val 
+				,"lime.png":init_pos_val ,"melon.png":init_pos_val ,"mojito.png":init_pos_val 
+				,"orange.png":init_pos_val ,"passionfruit.png":init_pos_val ,"strawberry.png":init_pos_val}
+
+var player1_score = 0
