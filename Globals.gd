@@ -14,6 +14,7 @@ const maze_width = 16  # width of map (in tiles)
 const maze_height = 9  # height of map (in tiles)
 const center_cell_init = tile_size/2
 
+
 enum ice_poop_state_E{
 	NOT_DETECTED_E = 0,
 	IN_DETECTION_E  = 1,
@@ -24,4 +25,5 @@ var Icepoops = {"blackberry.png":ice_poop_state_E.NOT_DETECTED_E, "bubblegum.png
 				,"lime.png":ice_poop_state_E.NOT_DETECTED_E ,"melon.png":ice_poop_state_E.NOT_DETECTED_E ,"mojito.png":ice_poop_state_E.NOT_DETECTED_E 
 				,"orange.png":ice_poop_state_E.NOT_DETECTED_E ,"passionfruit.png":ice_poop_state_E.NOT_DETECTED_E ,"strawberry.png":ice_poop_state_E.NOT_DETECTED_E}
 
-var player1_score = 0
+
+

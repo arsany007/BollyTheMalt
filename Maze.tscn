@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Maze.gd" type="Script" id=1]
 [ext_resource path="res://TileMap.gd" type="Script" id=2]
+[ext_resource path="res://SelectIcePoop.gd" type="Script" id=3]
 [ext_resource path="res://Globals.gd" type="Script" id=4]
 [ext_resource path="res://HUD.tscn" type="PackedScene" id=5]
 [ext_resource path="res://PlayerKini.tscn" type="PackedScene" id=6]
@@ -23,9 +24,12 @@ script = ExtResource( 2 )
 
 [node name="PlayerKini" parent="." instance=ExtResource( 6 )]
 
-[node name="HUD" parent="." instance=ExtResource( 5 )]
-
 [node name="IcePoop" parent="." instance=ExtResource( 7 )]
 
+[node name="SelectIcePoop" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="HUD" parent="SelectIcePoop" instance=ExtResource( 5 )]
+
 [connection signal="signal_rotate_cell" from="TileMap" to="." method="_on_TileMap_signal_rotate_cell"]
-[connection signal="ice_poop_hit" from="PlayerKini" to="." method="_on_PlayerKini_ice_poop_hit"]
+[connection signal="ice_poop_hit" from="PlayerKini" to="SelectIcePoop" method="_on_PlayerKini_ice_poop_hit"]

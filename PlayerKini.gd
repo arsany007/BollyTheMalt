@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-signal ice_poop_hit(score)
+signal ice_poop_hit(collided_ice_poop)
 
 var screen_size # Size of the game window.
 var speed =400
@@ -37,9 +37,10 @@ func _physics_process(delta):
 	position.y = clamp(position.y, 0, screen_size.y)
 	
 	
-func add_ice_poop(collided_ice_poop): 
-	var collided_ice_poop_node2d = collided_ice_poop as Node2D
-	var collided_ice_poop_name = collided_ice_poop_node2d.get_node("Sprite").texture
-	score += 1
-	emit_signal("ice_poop_hit",score)
+func hit_ice_poop(collided_ice_poop): 
+	#var collided_ice_poop_node2d = collided_ice_poop as Node2D
+	#var collided_ice_poop_name = collided_ice_poop_node2d.get_node("Sprite").texture.resource_path
+	
+	#score += 1
+	emit_signal("ice_poop_hit",collided_ice_poop)
 	return true

@@ -2,7 +2,7 @@ extends Node2D
 
 onready var globals = get_node("Globals")
 onready var Map = $TileMap
-onready var HUD = $HUD
+
 
 
 const N = 1
@@ -106,5 +106,3 @@ func _on_TileMap_signal_rotate_cell(cell):
 	Rotate(cell, 1)
 
 
-func _on_PlayerKini_ice_poop_hit(score):
-	HUD.update_score(score)
