@@ -10,6 +10,7 @@ var remaining_keys = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	randomize()
 	remaining_keys = globals.Icepoops.keys().size()
 	player1_ice_poop = choose_player_ice_poop()
 	HUD.update_selected_ice_poop(player1_ice_poop)
