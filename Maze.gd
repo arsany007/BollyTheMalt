@@ -106,5 +106,5 @@ func _on_TileMap_signal_rotate_cell(cell):
 	Rotate(cell, 1)
 
 
-func _on_IcePoop_poop_hit():
-	HUD.update_score(globals.player1_score)
+func _on_PlayerKini_ice_poop_hit(score):
+	HUD.update_score(score)

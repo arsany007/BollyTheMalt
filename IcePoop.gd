@@ -1,9 +1,6 @@
 extends Node2D
 
-signal poop_hit
-
-onready var globals = get_node("../Globals")
-
 func _on_Area2D_body_entered(body):
-	globals.player1_score += 1
-	emit_signal("poop_hit")
+	if body.get_name() == "PlayerKini":
+		if body.add_ice_poop(self):
+			queue_free()

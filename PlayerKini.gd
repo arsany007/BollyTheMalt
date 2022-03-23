@@ -1,9 +1,11 @@
 extends KinematicBody2D
 
-signal hit(collision_detected)
+signal ice_poop_hit(score)
 
 var screen_size # Size of the game window.
 var speed =400
+
+var score=0
 
 func _ready():
 	screen_size = get_viewport_rect().size
@@ -29,11 +31,15 @@ func _physics_process(delta):
 	else:
 		$AnimatedSprite.stop()
 
-	var collision_detected = move_and_collide( velocity * delta )
-	
-	if collision_detected != null:
-		velocity = velocity.bounce(collision_detected.normal)
-		emit_signal("hit",collision_detected) #KinematicBody2D cant detect collision with Node2D
-	
+	move_and_collide( velocity * delta )
+
 	position.x = clamp(position.x, 0, screen_size.x)
 	position.y = clamp(position.y, 0, screen_size.y)
+	
+	
+func add_ice_poop(collided_ice_poop): 
+	var collided_ice_poop_node2d = collided_ice_poop as Node2D
+	var collided_ice_poop_name = collided_ice_poop_node2d.get_node("Sprite").texture
+	score += 1
+	emit_signal("ice_poop_hit",score)
+	return true
