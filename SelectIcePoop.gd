@@ -14,9 +14,6 @@ func _ready():
 	remaining_keys = globals.Icepoops.keys().size()
 	player1_ice_poop = choose_player_ice_poop()
 	HUD.update_selected_ice_poop(player1_ice_poop)
-	
-
-
 
 func _on_PlayerKini_ice_poop_hit(collided_ice_poop):
 	var collided_ice_poop_node2d = collided_ice_poop as Node2D
@@ -26,8 +23,11 @@ func _on_PlayerKini_ice_poop_hit(collided_ice_poop):
 		globals.Icepoops[player1_ice_poop] = globals.ice_poop_state_E.DETECTED_E
 		collided_ice_poop.queue_free()
 		player1_ice_poop = choose_player_ice_poop()
-		HUD.update_score(player1_score)
-		HUD.update_selected_ice_poop(player1_ice_poop)
+		if player1_ice_poop != null:
+			HUD.update_score(player1_score)
+			HUD.update_selected_ice_poop(player1_ice_poop)
+		else:
+			HUD.game_over()
 
 func choose_player_ice_poop():
 	var player = null
@@ -40,4 +40,5 @@ func choose_player_ice_poop():
 			globals.Icepoops[selected_ice_poop_key] = globals.ice_poop_state_E.IN_DETECTION_E
 			remaining_keys -=1
 			key_found = true
+			
 	return player

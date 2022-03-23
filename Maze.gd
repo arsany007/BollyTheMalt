@@ -64,8 +64,8 @@ func AddIcePoops():
 		var Icepoop_instance = Icepoop_node.instance()
 		Icepoop_instance.get_node("Sprite").texture = load("res://art/" + Icepoop_key)
 		
-		var rand_x = globals.tile_size* rand_range(1,globals.maze_width-1)
-		var rand_y = globals.tile_size* rand_range(1,globals.maze_height-1)
+		var rand_x = globals.tile_size* (randi() % (globals.maze_width-1) + 1)
+		var rand_y = globals.tile_size* (randi() % (globals.maze_height-1) + 1)
 		Icepoop_instance.position = Vector2(globals.center_cell_init+ rand_x, globals.center_cell_init+ rand_y )
 		
 		add_child(Icepoop_instance)
