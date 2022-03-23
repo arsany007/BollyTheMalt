@@ -2,10 +2,10 @@
 
 [ext_resource path="res://Maze.gd" type="Script" id=1]
 [ext_resource path="res://TileMap.gd" type="Script" id=2]
-[ext_resource path="res://IceCream.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Globals.gd" type="Script" id=4]
 [ext_resource path="res://HUD.tscn" type="PackedScene" id=5]
 [ext_resource path="res://PlayerKini.tscn" type="PackedScene" id=6]
+[ext_resource path="res://IcePoop.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Maze.tres" type="TileSet" id=18]
 
 [node name="Maze" type="Node2D"]
@@ -23,9 +23,9 @@ script = ExtResource( 2 )
 
 [node name="PlayerKini" parent="." instance=ExtResource( 6 )]
 
-[node name="IceCream" parent="." instance=ExtResource( 3 )]
-
 [node name="HUD" parent="." instance=ExtResource( 5 )]
 
+[node name="IcePoop" parent="." instance=ExtResource( 7 )]
+
 [connection signal="signal_rotate_cell" from="TileMap" to="." method="_on_TileMap_signal_rotate_cell"]
-[connection signal="ice_cream_hit" from="IceCream" to="." method="_on_IceCream_ice_cream_hit"]
+[connection signal="poop_hit" from="IcePoop" to="." method="_on_IcePoop_poop_hit"]

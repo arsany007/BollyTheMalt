@@ -14,10 +14,14 @@ const maze_width = 16  # width of map (in tiles)
 const maze_height = 9  # height of map (in tiles)
 const center_cell_init = tile_size/2
 
-var init_pos_val = Vector2(0,0)
-var icecreams = {"blackberry.png":init_pos_val, "bubblegum.png":init_pos_val ,"cherry.png":init_pos_val ,
-				"cola.png":init_pos_val ,"creamsoda.png":init_pos_val ,"lemon.png":init_pos_val 
-				,"lime.png":init_pos_val ,"melon.png":init_pos_val ,"mojito.png":init_pos_val 
-				,"orange.png":init_pos_val ,"passionfruit.png":init_pos_val ,"strawberry.png":init_pos_val}
+enum ice_poop_state_E{
+	NOT_DETECTED_E = 0,
+	IN_DETECTION_E  = 1,
+	DETECTED_E  = 2}
+	
+var Icepoops = {"blackberry.png":ice_poop_state_E.NOT_DETECTED_E, "bubblegum.png":ice_poop_state_E.NOT_DETECTED_E ,"cherry.png":ice_poop_state_E.NOT_DETECTED_E ,
+				"cola.png":ice_poop_state_E.NOT_DETECTED_E ,"creamsoda.png":ice_poop_state_E.NOT_DETECTED_E ,"lemon.png":ice_poop_state_E.NOT_DETECTED_E 
+				,"lime.png":ice_poop_state_E.NOT_DETECTED_E ,"melon.png":ice_poop_state_E.NOT_DETECTED_E ,"mojito.png":ice_poop_state_E.NOT_DETECTED_E 
+				,"orange.png":ice_poop_state_E.NOT_DETECTED_E ,"passionfruit.png":ice_poop_state_E.NOT_DETECTED_E ,"strawberry.png":ice_poop_state_E.NOT_DETECTED_E}
 
 var player1_score = 0

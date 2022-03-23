@@ -33,7 +33,7 @@ func _physics_process(delta):
 	
 	if collision_detected != null:
 		velocity = velocity.bounce(collision_detected.normal)
-		emit_signal("hit",collision_detected)
+		emit_signal("hit",collision_detected) #KinematicBody2D cant detect collision with Node2D
 	
 	position.x = clamp(position.x, 0, screen_size.x)
 	position.y = clamp(position.y, 0, screen_size.y)

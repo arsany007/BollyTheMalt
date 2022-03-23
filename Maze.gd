@@ -55,23 +55,23 @@ func make_maze():
 			current = stack.pop_back()
 		#yield(get_tree(), 'idle_frame')
 	#RandomRotate()
-	AddIcecreams()
+	AddIcePoops()
 
-func AddIcecreams():
-	var icecream_node = null	
-	var icecream_instance = null
-				
-	for icecream_key in globals.icecreams.keys():	
-		icecream_node = load("res://IceCream.tscn")
-		icecream_instance = icecream_node.instance()
-		icecream_instance.get_node("Sprite").texture = load("res://art/" + icecream_key)
-
+func AddIcePoops():
+	
+	for Icepoop_key in globals.Icepoops.keys():	
+		var Icepoop_node = preload("res://IcePoop.tscn")
+		var Icepoop_instance = Icepoop_node.instance()
+		Icepoop_instance.get_node("Sprite").texture = load("res://art/" + Icepoop_key)
+		
 		var rand_x = globals.tile_size* rand_range(1,globals.maze_width-1)
 		var rand_y = globals.tile_size* rand_range(1,globals.maze_height-1)
-		icecream_instance.position = Vector2(globals.center_cell_init+ rand_x, globals.center_cell_init+ rand_y )
-		add_child(icecream_instance)
+		Icepoop_instance.position = Vector2(globals.center_cell_init+ rand_x, globals.center_cell_init+ rand_y )
 		
-		globals.icecreams[icecream_key] = icecream_instance.position
+		add_child(Icepoop_instance)
+
+		
+		#globals.Icepoops[Icepoop_key] = Icepoop_instance.position
 
 
 func RandomRotate():
@@ -106,5 +106,5 @@ func _on_TileMap_signal_rotate_cell(cell):
 	Rotate(cell, 1)
 
 
-func _on_IceCream_ice_cream_hit():
+func _on_IcePoop_poop_hit():
 	HUD.update_score(globals.player1_score)
