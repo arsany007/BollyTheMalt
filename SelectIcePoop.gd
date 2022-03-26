@@ -11,9 +11,7 @@ var remaining_keys = null
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	randomize()
-	remaining_keys = globals.Icepoops.keys().size()
-	player1_ice_poop = choose_player_ice_poop()
-	HUD.update_selected_ice_poop(player1_ice_poop)
+	new_game()
 
 func _on_PlayerKini_ice_poop_hit(collided_ice_poop):
 	var collided_ice_poop_node2d = collided_ice_poop as Node2D
@@ -42,3 +40,15 @@ func choose_player_ice_poop():
 			key_found = true
 			
 	return player
+
+func new_game():
+	player1_score = 0
+	remaining_keys = globals.Icepoops.keys().size()
+	player1_ice_poop = choose_player_ice_poop()
+	HUD.update_score(player1_score)
+	HUD.update_selected_ice_poop(player1_ice_poop)
+	
+
+
+func _on_HUD_New_Game():
+	new_game()

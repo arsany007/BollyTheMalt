@@ -2,6 +2,7 @@ extends Node2D
 
 onready var globals = get_node("Globals")
 onready var Map = $TileMap
+onready var PlayerKini = $PlayerKini
 
 
 
@@ -59,6 +60,9 @@ func make_maze():
 
 func AddIcePoops():
 	
+	for nodes in get_tree().get_nodes_in_group("IcePoop_Group"):
+		nodes.queue_free()
+	
 	for Icepoop_key in globals.Icepoops.keys():	
 		var Icepoop_node = preload("res://IcePoop.tscn")
 		var Icepoop_instance = Icepoop_node.instance()
@@ -69,7 +73,7 @@ func AddIcePoops():
 		Icepoop_instance.position = Vector2(globals.center_cell_init+ rand_x, globals.center_cell_init+ rand_y )
 		
 		add_child(Icepoop_instance)
-
+		Icepoop_instance.add_to_group("IcePoop_Group")
 		
 		#globals.Icepoops[Icepoop_key] = Icepoop_instance.position
 
@@ -106,3 +110,7 @@ func _on_TileMap_signal_rotate_cell(cell):
 	Rotate(cell, 1)
 
 
+func _on_HUD_New_Game():
+	make_maze()
+	PlayerKini.position = Vector2(32,32)
+	

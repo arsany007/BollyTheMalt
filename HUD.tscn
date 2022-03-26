@@ -1,6 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://HUD.gd" type="Script" id=1]
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.6, 0.6, 0.6, 0.235294 )
 
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://fonts/Xolonium-Regular.ttf"
@@ -8,6 +11,36 @@ font_path = "res://fonts/Xolonium-Regular.ttf"
 [sub_resource type="DynamicFont" id=2]
 size = 24
 font_data = SubResource( 1 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "GameOverAnimi"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("GameOver:percent_visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 3.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 4 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "startAnimationDone"
+} ]
+}
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 1 )
@@ -19,6 +52,7 @@ margin_left = -332.0
 margin_top = 4.0
 margin_right = -11.0
 margin_bottom = 110.0
+custom_styles/panel = SubResource( 3 )
 
 [node name="ScoreLabel" type="Label" parent="."]
 margin_left = 748.0
@@ -68,4 +102,26 @@ margin_right = 73.5
 margin_bottom = 27.5
 text = "NEW GAME"
 
+[node name="GameOver" type="Label" parent="."]
+margin_left = 315.0
+margin_top = 134.0
+margin_right = 723.0
+margin_bottom = 274.0
+rect_pivot_offset = Vector2( -1099, -16 )
+custom_fonts/font = SubResource( 2 )
+text = "GameOver"
+align = 1
+valign = 1
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/GameOverAnimi = SubResource( 4 )
+
+[node name="Button2" type="Button" parent="."]
+margin_left = 452.0
+margin_top = 476.0
+margin_right = 591.0
+margin_bottom = 586.0
+text = "END"
+
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="Button2" to="." method="_on_Button2_pressed"]

@@ -33,3 +33,5 @@ script = ExtResource( 3 )
 
 [connection signal="signal_rotate_cell" from="TileMap" to="." method="_on_TileMap_signal_rotate_cell"]
 [connection signal="ice_poop_hit" from="PlayerKini" to="SelectIcePoop" method="_on_PlayerKini_ice_poop_hit"]
+[connection signal="New_Game" from="SelectIcePoop/HUD" to="." method="_on_HUD_New_Game"]
+[connection signal="New_Game" from="SelectIcePoop/HUD" to="SelectIcePoop" method="_on_HUD_New_Game"]
