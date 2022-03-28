@@ -18,6 +18,7 @@ func _on_PlayerKini_ice_poop_hit(collided_ice_poop):
 	var collided_ice_poop_name = collided_ice_poop_node2d.get_node("Sprite").texture.resource_path
 	if(collided_ice_poop_name == ("res://art/" + player1_ice_poop)):
 		player1_score += 1
+		globals.player1_Size += 0.02
 		globals.Icepoops[player1_ice_poop] = globals.ice_poop_state_E.DETECTED_E
 		collided_ice_poop.queue_free()
 		player1_ice_poop = choose_player_ice_poop()
@@ -43,6 +44,7 @@ func choose_player_ice_poop():
 
 func new_game():
 	player1_score = 0
+	globals.player1_Size = 0.3
 	remaining_keys = globals.Icepoops.keys().size()
 	player1_ice_poop = choose_player_ice_poop()
 	HUD.update_score(player1_score)

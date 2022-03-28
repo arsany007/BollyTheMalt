@@ -23,6 +23,7 @@ format = 1
 script = ExtResource( 2 )
 
 [node name="PlayerKini" parent="." instance=ExtResource( 6 )]
+scale = Vector2( 0.3, 0.3 )
 
 [node name="IcePoop" parent="." instance=ExtResource( 7 )]
 

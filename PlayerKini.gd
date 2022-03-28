@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+onready var globals = get_node("../Globals")
+
 signal ice_poop_hit(collided_ice_poop)
 
 var screen_size # Size of the game window.
@@ -35,6 +37,9 @@ func _physics_process(delta):
 
 	position.x = clamp(position.x, 0, screen_size.x)
 	position.y = clamp(position.y, 0, screen_size.y)
+	
+	scale.x = globals.player1_Size
+	scale.y = globals.player1_Size
 	
 	
 func hit_ice_poop(collided_ice_poop): 

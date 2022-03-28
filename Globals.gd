@@ -25,5 +25,6 @@ var Icepoops = {"blackberry.png":ice_poop_state_E.NOT_DETECTED_E, "bubblegum.png
 				,"lime.png":ice_poop_state_E.NOT_DETECTED_E ,"melon.png":ice_poop_state_E.NOT_DETECTED_E ,"mojito.png":ice_poop_state_E.NOT_DETECTED_E 
 				,"orange.png":ice_poop_state_E.NOT_DETECTED_E ,"passionfruit.png":ice_poop_state_E.NOT_DETECTED_E ,"strawberry.png":ice_poop_state_E.NOT_DETECTED_E}
 
+var player1_Size = 0.3
 
 
