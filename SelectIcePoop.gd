@@ -2,6 +2,7 @@ extends Node
 
 onready var globals = get_node("../Globals")
 onready var HUD = $HUD
+onready var EatSound = $EatSound
 
 
 var player1_score = 0
@@ -19,6 +20,7 @@ func _on_PlayerKini_ice_poop_hit(collided_ice_poop):
 	if(collided_ice_poop_name == ("res://art/" + player1_ice_poop)):
 		player1_score += 1
 		globals.player1_Size += 0.02
+		EatSound.play()
 		globals.Icepoops[player1_ice_poop] = globals.ice_poop_state_E.DETECTED_E
 		collided_ice_poop.queue_free()
 		player1_ice_poop = choose_player_ice_poop()

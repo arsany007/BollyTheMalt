@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Maze.gd" type="Script" id=1]
 [ext_resource path="res://TileMap.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://HUD.tscn" type="PackedScene" id=5]
 [ext_resource path="res://PlayerKini.tscn" type="PackedScene" id=6]
 [ext_resource path="res://IcePoop.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Sounds/eating.wav" type="AudioStream" id=8]
 [ext_resource path="res://Maze.tres" type="TileSet" id=18]
 
 [node name="Maze" type="Node2D"]
@@ -31,6 +32,9 @@ scale = Vector2( 0.3, 0.3 )
 script = ExtResource( 3 )
 
 [node name="HUD" parent="SelectIcePoop" instance=ExtResource( 5 )]
+
+[node name="EatSound" type="AudioStreamPlayer2D" parent="SelectIcePoop"]
+stream = ExtResource( 8 )
 
 [connection signal="signal_rotate_cell" from="TileMap" to="." method="_on_TileMap_signal_rotate_cell"]
 [connection signal="ice_poop_hit" from="PlayerKini" to="SelectIcePoop" method="_on_PlayerKini_ice_poop_hit"]
