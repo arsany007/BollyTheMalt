@@ -1,5 +1,7 @@
 extends Node
 
+signal Game_Over
+
 onready var globals = get_node("../Globals")
 onready var HUD = $HUD
 onready var EatSound = $EatSound
@@ -28,7 +30,8 @@ func _on_PlayerKini_ice_poop_hit(collided_ice_poop):
 			HUD.update_score(player1_score)
 			HUD.update_selected_ice_poop(player1_ice_poop)
 		else:
-			HUD.game_over()
+			emit_signal("Game_Over")
+			HUD.game_over() #TODO replace currrent implementation with signal
 
 func choose_player_ice_poop():
 	var player = null

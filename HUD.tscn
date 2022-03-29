@@ -112,12 +112,12 @@ custom_fonts/font = SubResource( 2 )
 text = "GameOver"
 align = 1
 valign = 1
+percent_visible = 0.857143
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/GameOverAnimi = SubResource( 4 )
 
 [node name="Button2" type="Button" parent="."]
-visible = false
 margin_left = 452.0
 margin_top = 476.0
 margin_right = 591.0

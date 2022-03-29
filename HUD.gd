@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 signal New_Game
+signal Game_Over
 
 func _ready():
 	$GameOver.hide()
@@ -21,6 +22,7 @@ func game_over():
 	$GameOver.show()
 	$AnimationPlayer.play("GameOverAnimi")
 	$Button.show()
+	emit_signal("Game_Over")
 
 func startAnimationDone():
 	$GameOver.hide()

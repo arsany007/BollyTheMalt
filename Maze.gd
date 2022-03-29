@@ -3,6 +3,7 @@ extends Node2D
 onready var globals = get_node("Globals")
 onready var Map = $TileMap
 onready var PlayerKini = $PlayerKini
+onready var explode = preload("res://Explosion.tscn").instance()
 
 
 
@@ -52,15 +53,13 @@ func make_maze():
 			Map.set_cellv(next, next_walls)
 			current = next
 			unvisited.erase(current)
+
 		elif stack:
 			current = stack.pop_back()
 		#yield(get_tree(), 'idle_frame')
-	ReplaceDeadEnds()
+		
 	#RandomRotate()
 	AddIcePoops()
-
-func ReplaceDeadEnds():
-	pass
 
 func AddIcePoops():
 	
@@ -117,4 +116,18 @@ func _on_TileMap_signal_rotate_cell(cell):
 func _on_HUD_New_Game():
 	make_maze()
 	PlayerKini.position = Vector2(32,32)
+	
+
+func _on_SelectIcePoop_Game_Over():
+	explode.set_position(PlayerKini.position)
+	get_parent().add_child(explode)
+
+func _on_HUD_Game_Over():
+	explode.set_position(PlayerKini.position)
+	get_parent().add_child(explode)
+	explode.connect("HoleOpen", self, "_on_Explosion_HoleOpen")
+	explode.get_node("AnimationPlayer").play("Explode")
+
+func _on_Explosion_HoleOpen():
+	PlayerKini.get_node("AnimationPlayer").play("ScalePlayerKini")
 	
