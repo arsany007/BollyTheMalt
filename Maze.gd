@@ -55,8 +55,12 @@ func make_maze():
 		elif stack:
 			current = stack.pop_back()
 		#yield(get_tree(), 'idle_frame')
+	ReplaceDeadEnds()
 	#RandomRotate()
 	AddIcePoops()
+
+func ReplaceDeadEnds():
+	pass
 
 func AddIcePoops():
 	

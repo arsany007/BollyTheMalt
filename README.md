@@ -1,5 +1,18 @@
 # BollyTheMalt
 
+Drawing the map:
+
+Tileset value explaination:
+
+->Road open end = 0 <br>
+->Road close end = 1 <br>
+
+Read the bits Anti clockwise starting from the left
+
+![Example](https://https://github.com/arsany007/BollyTheMalt/tree/main/road/main/TileMapExample.jpg?raw=true)
+
+---
+
 
 ```mermaid
 flowchart TD
