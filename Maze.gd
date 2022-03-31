@@ -116,7 +116,7 @@ func _on_TileMap_signal_rotate_cell(cell):
 func _on_HUD_New_Game():
 	make_maze()
 	PlayerKini.position = Vector2(32,32)
-	
+	PlayerKini.get_node("AnimationPlayer").play_backwards("ScalePlayerKini")
 
 func _on_SelectIcePoop_Game_Over():
 	explode.set_position(PlayerKini.position)
