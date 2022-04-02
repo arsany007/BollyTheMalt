@@ -22,6 +22,8 @@ flowchart TD
 
 M[Maze] -->|has| P[PlayerKini]
 M[Maze] -->|has| I[IcePoop]
+F[Fathy] 
+
 
 subgraph Map
     direction LR
