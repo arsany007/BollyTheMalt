@@ -20,19 +20,18 @@ The Value for the following TileSet = 1011 = "11.png" <br>
 ```mermaid
 flowchart TD
 
-M[Maze] -->|has| P[PlayerKini]
-M[Maze] -->|has| I[IcePoop]
-F[Fathy] 
+Maze -->|has| PlayerKini
+Maze -->|has| IcePoop
 
 
 subgraph Map
     direction LR
-    M[Maze] -->|has| TM[TileMap]
+    Maze -->|has| TileMap
 end
 
-I -->|para_hit| P
-P -->|signal_hit,para_icepoop| S[SelectIcePoop]
+IcePoop -->|para_hit| PlayerKini
+PlayerKini -->|signal_hit,para_icepoop| SelectIcePoop
 
-S -->|para_score| H[HUD]
+SelectIcePoop -->|para_score| HUD
 
 ```
