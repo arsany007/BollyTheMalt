@@ -59,9 +59,11 @@ func Reset_Parameters():
 
 func Collect_ModelFiles(scan_dir : String) -> Array:
 	var All_files : Array = []
-	var my_files_tscn : Array = []
-	var my_files_gd : Array = []
+	var Files_tscn : Array = []
+	var Files_gd : Array = []
+	
 	var dir := Directory.new()
+	
 	if dir.open(scan_dir) != OK:
 		printerr("Warning: could not open directory: ", scan_dir)
 		return []
@@ -76,17 +78,27 @@ func Collect_ModelFiles(scan_dir : String) -> Array:
 			if dir.current_is_dir():
 				All_files += Collect_ModelFiles(dir.get_current_dir() + "/" + file_name)
 			else:
-				if file_name.ends_with(".tscn") :
-					my_files_tscn.append(dir.get_current_dir() + "/" + file_name)
-				elif file_name.ends_with(".gd") :
-					my_files_gd.append(dir.get_current_dir() + "/" + file_name)
+				if file_name.ends_with(".tscn") or file_name.ends_with(".gd"):
+					All_files.append(dir.get_current_dir() + "/" + file_name)		
 		file_name = dir.get_next()
 	
-	All_files = my_files_tscn + my_files_gd
+	#Sort All_files to process tscn files first then gd files
+	for file in All_files:
+		if file.ends_with(".tscn"):
+			Files_tscn.append(file)
+		elif file.ends_with(".gd"):
+			Files_gd.append(file)
+	
+	All_files.clear()
+	All_files.append_array(Files_tscn)
+	All_files.append_array(Files_gd)
+	
+
 	return All_files
 
 
 func Parse_ModelFiles(parsed_files):
+	print(parsed_files)
 	for file_name in parsed_files:
 		var parsed_file = File.new()
 		var valid_nodes_info = []
