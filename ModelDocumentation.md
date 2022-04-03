@@ -1,5 +1,19 @@
-Limitation: 
-Nodes have to have unique names 
+
+<style>.mermaid svg { height: auto; }</style> <br>
+# **Model Architecture**
+## Block Diagram
+		
+> Explains Nodes relations and interactions
+			
+### Color code
+> Origin nodes -> Black - Solid - Blocks <br>
+> Child nodes -> Red - Solid - Blocks <br>
+> Dynamic added nodes -> Red - Dotted - Blocks
+		
+### Arrows syntax
+> Parent to child relation "--->" <br>
+> Signal call relation "-.->" 
+
 ```mermaid 
  flowchart LR 
  

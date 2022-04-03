@@ -261,10 +261,26 @@ func Create_MarkdownFile():
 	if md_file.file_exists("res://ModelDocumentation.md"):
 		printerr("WARNING! ModelDocumentation.md will be overwritten!!!! ")
 	md_file.open("res://ModelDocumentation.md", File.WRITE_READ)
-	md_file.store_string("Limitation: \n")		
-	md_file.store_string("Nodes have to have unique names \n")	
-	md_file.store_string("```mermaid \n flowchart LR \n ")
 
+	var Heading = """
+<style>.mermaid svg { height: auto; }</style> <br>
+# **Model Architecture**
+## Block Diagram
+		
+> Explains Nodes relations and interactions
+			
+### Color code
+> Origin nodes -> Black - Solid - Blocks <br>
+> Child nodes -> Red - Solid - Blocks <br>
+> Dynamic added nodes -> Red - Dotted - Blocks
+		
+### Arrows syntax
+> Parent to child relation "--->" <br>
+> Signal call relation "-.->" 
+"""
+			
+	md_file.store_string(Heading)
+	md_file.store_string("\n```mermaid \n flowchart LR \n ")
 
 func Draw_MarkdownFile(from:String, to:String, format:int, text:String):
 	var arrow = "--->"
