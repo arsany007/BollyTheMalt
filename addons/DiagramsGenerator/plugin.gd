@@ -261,12 +261,11 @@ func Draw_MarkdownFile(from:String, to:String, format:int, text:String):
 
 	if from and to:
 		if format == FORMAT_NODE:
-			pass
+			to_block_style = "style "+to+" stroke:#f66,stroke-width:2px"
 		elif format == FORMAT_SIGNAL:
 			arrow =  "-.->"
 		elif format == FORMAT_DYNAMIC_NODE:
-			to_block_style = "style "+to+" fill:#bbf,stroke:#f66,stroke-width:2px,color:#fff,stroke-dasharray: 5 5"
-			pass
+			to_block_style = "style "+to+" stroke:#f66,stroke-width:2px,color:#fff,stroke-dasharray: 5 5"
 			
 		var content = from + "("+ from + ")"  + arrow + " |" + text + "| " + to +  "(" + to + ")" 
 		if not md_file or  not md_file.is_open() : Create_MarkdownFile()
