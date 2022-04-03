@@ -27,7 +27,8 @@ func _on_button_pressed():
 
 
 func _exit_tree():
-	# Clean-up of the plugin goes here.
+	parsed_lines = {"Nodes": [],"Signals": []}
+	parent_of_nodes_in_file = ""
 	pass
 
 
@@ -181,3 +182,5 @@ func Close_MarkdownFile():
 	md_file.seek_end()
 	md_file.store_string("\n```")
 	md_file.close()
+	parsed_lines = {"Nodes": [],"Signals": []}
+	parent_of_nodes_in_file = ""
