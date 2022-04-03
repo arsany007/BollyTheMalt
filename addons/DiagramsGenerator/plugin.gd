@@ -1,31 +1,64 @@
 tool
 extends EditorPlugin
+
+# resource_infos = {"path":"","type":"","node":""}
+var Node2Script
+
 # node_infos = {"name":"","type":"","parent":""}
 # signal_infos = {"signal":"","from":"","to":"","method":""}
-var parsed_lines = {"Nodes": [],"Signals": []}
-var parent_of_nodes_in_file = ""
+var parsed_lines
+
+var parent_of_nodes_in_file
+var current_file
+var current_node
 var md_file
 
+#------------------------
+const KEY_NODES = 0
+const KEY_SIGNALS = 1
+
+const TYPE_NODE = 2
+const TYPE_SIGNAL = 3
+const TYPE_DYNAMIC_NODE = 4
+const TYPE_RESOURCE = 5
+const TYPE_SCRIPT = 6
+
+const DICT_TYPE_DYNAMIC_NODE = "Dynamic_Node"
+
+const FORMAT_NODE = 8
+const FORMAT_SIGNAL = 9
+const FORMAT_DYNAMIC_NODE = 10
+const FORMAT_MAIN_NODE = 11
+
+
 func _enter_tree():
-	pass
+	Reset_Parameters()
 
 func _input(event):
 	if Input.is_key_pressed(KEY_CONTROL) and Input.is_key_pressed(KEY_G) :
 		# Initialization of the plugin goes here.
 		var parsed_files = Collect_ModelFiles("res://")
-		
-		parsed_lines = {"Nodes": [],"Signals": []}
-		parent_of_nodes_in_file = ""
+		print(parsed_files)
+		Reset_Parameters()
 		
 		Parse_ModelFiles(parsed_files)
 		Draw_Nodes()
 		Draw_Signals()
 		Close_MarkdownFile()
+		
 		print ("res://ModelDocumentation.md generated ")
 
+func Reset_Parameters():
+	parsed_lines = {KEY_NODES: [],KEY_SIGNALS: []}
+	parent_of_nodes_in_file = ""
+	Node2Script = []
+	current_node = ""
+	current_file = ""
 
 func Collect_ModelFiles(scan_dir : String) -> Array:
-	var my_files : Array = []
+	var All_files : Array = []
+	var my_files_tscn : Array = []
+	var my_files_gd : Array = []
 	var dir := Directory.new()
 	if dir.open(scan_dir) != OK:
 		printerr("Warning: could not open directory: ", scan_dir)
@@ -39,14 +72,16 @@ func Collect_ModelFiles(scan_dir : String) -> Array:
 	while file_name != "":
 		if not file_name.begins_with(".") and not file_name==("addons"):
 			if dir.current_is_dir():
-				my_files += Collect_ModelFiles(dir.get_current_dir() + "/" + file_name)
+				All_files += Collect_ModelFiles(dir.get_current_dir() + "/" + file_name)
 			else:
-				if file_name.ends_with(".tscn") or file_name.ends_with(".gd"):
-					my_files.append(dir.get_current_dir() + "/" + file_name)
-
+				if file_name.ends_with(".tscn") :
+					my_files_tscn.append(dir.get_current_dir() + "/" + file_name)
+				elif file_name.ends_with(".gd") :
+					my_files_gd.append(dir.get_current_dir() + "/" + file_name)
 		file_name = dir.get_next()
-
-	return my_files
+	
+	All_files = my_files_tscn + my_files_gd
+	return All_files
 
 
 func Parse_ModelFiles(parsed_files):
@@ -54,44 +89,47 @@ func Parse_ModelFiles(parsed_files):
 		var parsed_file = File.new()
 		var valid_nodes_info = []
 		var valid_signals_info = []
-				
+
+		current_file = file_name		
 		parsed_file.open(file_name, File.READ)
 			
 		while not parsed_file.eof_reached(): # iterate through all lines until the end of file is reached
 			var line = parsed_file.get_line()
 
-			if line.begins_with("[node name="):
-				var line_info = Get_LineInfo(line,"Node")
+			if line.begins_with("[ext_resource path="):
+				var line_info = Get_LineInfo(line,TYPE_RESOURCE)
+				Node2Script.append(line_info)
+				
+			elif line.begins_with("[node name="):
+				var line_info = Get_LineInfo(line,TYPE_NODE)
 				if line_info:
 					valid_nodes_info.append(line_info)
+					current_node = line_info["name"]
 
+			elif line.begins_with("script = ExtResource"):
+				Get_LineInfo(line,TYPE_SCRIPT) # update the info inside array Node2Script
+				
 			elif line.begins_with("[connection signal="):
-				var line_info = Get_LineInfo(line,"Signal")
+				var line_info = Get_LineInfo(line,TYPE_SIGNAL)
 				if line_info:
 					valid_signals_info.append(line_info)
 
+			elif  "add_child(" in line: #to parse Dynamicly created nodes
+				var line_info = Get_LineInfo(line,TYPE_DYNAMIC_NODE)
+				if line_info:
+					valid_nodes_info.append(line_info)
+
 		# Node shall be handled before signals, such that the parent_of_nodes_in_file will get a value
-		parsed_lines["Nodes"].append_array(Clean_Info(valid_nodes_info,"Node"))
-		parsed_lines["Signals"].append_array(Clean_Info(valid_signals_info,"Signal"))
+		parsed_lines[KEY_NODES].append_array(Clean_Info(valid_nodes_info,KEY_NODES))
+		parsed_lines[KEY_SIGNALS].append_array(Clean_Info(valid_signals_info,KEY_SIGNALS))
+		
 		parent_of_nodes_in_file = ""
 		parsed_file.close()
-		
-	#print(parsed_lines)
-
-func Draw_Nodes():
-	#TODO: Link Dynamic nodes "add_child ---> .tscn"
-	for node in parsed_lines["Nodes"]:
-		Draw_MarkdownFile(node["parent"],node["name"],"Node","child")	
 
 
-func Draw_Signals():
-	for signal_var in parsed_lines["Signals"]:
-		Draw_MarkdownFile(signal_var["from"],signal_var["to"],"Signal",signal_var["method"])	
+func Get_LineInfo(line : String, type : int) -> Dictionary:
 
-
-func Get_LineInfo(line : String, type : String) -> Dictionary:
-
-	if type == "Node":
+	if type == TYPE_NODE:
 		var node_infos = {"name":"","type":"","parent":""}
 		var regex = RegEx.new()
 		regex.compile("node name=\"(.*?)\" type=\"(.*?)\"( parent=\"(.*?)\")?")
@@ -112,8 +150,20 @@ func Get_LineInfo(line : String, type : String) -> Dictionary:
 				node_infos["parent"] = result2.get_string(2)
 				node_infos["type"] = result2.get_string(3)			
 				return node_infos
-	
-	elif  type == "Signal":
+			
+	elif type == TYPE_DYNAMIC_NODE:
+		var node_infos = {"name":"","type":"","parent":""}
+		var regex = RegEx.new()
+		regex.compile("\\W?add_child\\((.*?)\\)")
+		var result = regex.search(line)
+
+		if result:
+			node_infos["name"] = result.get_string(1)
+			node_infos["parent"] = "."
+			node_infos["type"] = DICT_TYPE_DYNAMIC_NODE
+			return node_infos
+		
+	elif  type == TYPE_SIGNAL:
 		var signal_infos = {"signal":"","from":"","to":"","method":""}
 		var regex = RegEx.new()
 		regex.compile("connection signal=\"(.*?)\" from=\"(.*?)\" to=\"(.*?)\" method=\"(.*?)\"")
@@ -124,14 +174,44 @@ func Get_LineInfo(line : String, type : String) -> Dictionary:
 			signal_infos["to"] = result.get_string(3)
 			signal_infos["method"] = result.get_string(4)
 			return signal_infos
-		
+			
+	elif  type == TYPE_RESOURCE:
+		var resource_infos = {"path":"","type":"","node":""}
+		var regex = RegEx.new()
+		regex.compile("ext_resource path=\"(.*?)\" type=\"(.*?)\" id=(\\d+)")
+		var result = regex.search(line)
+		if result:
+			resource_infos["path"] = result.get_string(1)
+			resource_infos["type"] = result.get_string(2)
+			resource_infos["node"] = result.get_string(3)
+			return resource_infos
+			
+	elif type == TYPE_SCRIPT:	
+		var regex = RegEx.new()
+		regex.compile("script = ExtResource\\( (\\d+) \\)")
+		var result = regex.search(line)
+		if result:
+			for n2s in Node2Script:
+				if n2s["node"] == result.get_string(1) and current_node:
+					n2s["node"] = current_node
+			
 	return {}
 
 
-func Clean_Info(info : Array, type : String) -> Array:
+func Clean_Info(info : Array, key_type : int) -> Array:
 	
-	if type == "Node":
+	if key_type == KEY_NODES:
 		for node in info:
+			if node["type"] == DICT_TYPE_DYNAMIC_NODE:
+				if node["parent"] == "." and current_file != "":
+					for n2s in Node2Script:
+						#print(current_file.rsplit("/")[-1])
+						#print(n2s)
+						#print("----")
+						if current_file.rsplit("/")[-1] in n2s["path"]:
+							node["parent"] = n2s["node"]
+
+
 			if node["parent"] == "":
 				parent_of_nodes_in_file = node["name"]
 			elif node["parent"] == "." and parent_of_nodes_in_file != "":
@@ -139,7 +219,7 @@ func Clean_Info(info : Array, type : String) -> Array:
 			
 			node["parent"] = node["parent"].rsplit("/")[-1]
 	
-	elif  type == "Signal":
+	elif  key_type == KEY_SIGNALS:
 		for signal_var in info:
 			if signal_var["to"] == "." and parent_of_nodes_in_file != "":
 				signal_var["to"] = parent_of_nodes_in_file
@@ -151,34 +231,58 @@ func Clean_Info(info : Array, type : String) -> Array:
 
 	return info
 
+
+func Draw_Nodes():
+	for node in parsed_lines[KEY_NODES]:
+		if node["type"] == DICT_TYPE_DYNAMIC_NODE:
+			Draw_MarkdownFile(node["parent"],node["name"],FORMAT_DYNAMIC_NODE,"child")	
+		else:	
+			Draw_MarkdownFile(node["parent"],node["name"],FORMAT_NODE,"child")	
+
+
+func Draw_Signals():
+	for signal_var in parsed_lines[KEY_SIGNALS]:
+		Draw_MarkdownFile(signal_var["from"],signal_var["to"],FORMAT_SIGNAL,signal_var["method"])	
+
+
 func Create_MarkdownFile():
 	md_file = File.new()
 	md_file.open("res://ModelDocumentation.md", File.WRITE_READ)
 	md_file.store_string("Limitation: \n")		
 	md_file.store_string("Nodes have to have unique names \n")	
 	md_file.store_string("```mermaid \n flowchart LR \n ")
-	
-func Draw_MarkdownFile(from:String, to:String, arrow:String, text:String):
+
+
+func Draw_MarkdownFile(from:String, to:String, format:int, text:String):
+	var arrow = "--->"
+	var from_block_style =""
+	var to_block_style ="" #TODO style id2 fill:#bbf,stroke:#f66,stroke-width:2px,color:#fff,stroke-dasharray: 5 5
+
 	if from and to:
-		if arrow == "Node":
-			arrow = "--->"
-		else:
+		if format == FORMAT_NODE:
+			pass
+		elif format == FORMAT_SIGNAL:
 			arrow =  "-.->"
-		var content = from + arrow + " |" + text + "| " + to
+		elif format == FORMAT_DYNAMIC_NODE:
+			to_block_style = "style "+to+" fill:#bbf,stroke:#f66,stroke-width:2px,color:#fff,stroke-dasharray: 5 5"
+			pass
+			
+		var content = from + "("+ from + ")"  + arrow + " |" + text + "| " + to +  "(" + to + ")" 
 		if not md_file or  not md_file.is_open() : Create_MarkdownFile()
 		md_file.seek_end()
 		md_file.store_string("\n")
 		md_file.store_string(content)
+		md_file.store_string("\n")
+		md_file.store_string(to_block_style)
+
 
 func Close_MarkdownFile():
 	md_file.seek_end()
 	md_file.store_string("\n```")
 	md_file.close()
-	parsed_lines = {"Nodes": [],"Signals": []}
-	parent_of_nodes_in_file = ""
+	
+	Reset_Parameters()
 
 
 func _exit_tree():
-	parsed_lines = {"Nodes": [],"Signals": []}
-	parent_of_nodes_in_file = ""
-	pass
+	Reset_Parameters()
