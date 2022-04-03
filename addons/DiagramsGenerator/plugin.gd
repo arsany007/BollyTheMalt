@@ -35,8 +35,10 @@ func _enter_tree():
 	Reset_Parameters()
 
 func _input(event):
-	if Input.is_key_pressed(KEY_CONTROL) and Input.is_key_pressed(KEY_G) :
+	var key_pressed_once = false
+	if Input.is_key_pressed(KEY_CONTROL) and Input.is_key_pressed(KEY_G) and not key_pressed_once:
 		# Initialization of the plugin goes here.
+		key_pressed_once = true
 		var parsed_files = Collect_ModelFiles("res://")
 		print(parsed_files)
 		Reset_Parameters()
@@ -47,6 +49,7 @@ func _input(event):
 		Close_MarkdownFile()
 		
 		print ("res://ModelDocumentation.md generated ")
+	key_pressed_once = false
 
 func Reset_Parameters():
 	parsed_lines = {KEY_NODES: [],KEY_SIGNALS: []}
