@@ -7,29 +7,21 @@ var parent_of_nodes_in_file = ""
 var md_file
 
 func _enter_tree():
-	# Initialization of the plugin goes here.
-	parsed_lines = {"Nodes": [],"Signals": []}
-	parent_of_nodes_in_file = ""
-	# Load the  doc_dock scene and instance it.
-	var doc_dock = load("res://addons/DiagramsGenerator/Doc_Dock_Control.tscn").instance()
-	doc_dock.get_node("Doc_Dock_Button").connect("pressed",self,"_on_button_pressed")
-	add_child(doc_dock)
-
-
-func _on_button_pressed():
-	var parsed_files = Collect_ModelFiles("res://")
-	Parse_ModelFiles(parsed_files)
-	#Draw_MarkdownFile("Joka","Arsany","Node","many_kisses")
-	#Draw_MarkdownFile("Arsany","Joka","Signal","many_many_many_kisses")
-	Draw_Nodes()
-	Draw_Signals()
-	Close_MarkdownFile()
-
-
-func _exit_tree():
-	parsed_lines = {"Nodes": [],"Signals": []}
-	parent_of_nodes_in_file = ""
 	pass
+
+func _input(event):
+	if Input.is_key_pressed(KEY_CONTROL) and Input.is_key_pressed(KEY_G) :
+		# Initialization of the plugin goes here.
+		var parsed_files = Collect_ModelFiles("res://")
+		
+		parsed_lines = {"Nodes": [],"Signals": []}
+		parent_of_nodes_in_file = ""
+		
+		Parse_ModelFiles(parsed_files)
+		Draw_Nodes()
+		Draw_Signals()
+		Close_MarkdownFile()
+		print ("res://ModelDocumentation.md generated ")
 
 
 func Collect_ModelFiles(scan_dir : String) -> Array:
@@ -184,3 +176,9 @@ func Close_MarkdownFile():
 	md_file.close()
 	parsed_lines = {"Nodes": [],"Signals": []}
 	parent_of_nodes_in_file = ""
+
+
+func _exit_tree():
+	parsed_lines = {"Nodes": [],"Signals": []}
+	parent_of_nodes_in_file = ""
+	pass
