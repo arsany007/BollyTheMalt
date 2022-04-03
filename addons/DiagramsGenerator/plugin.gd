@@ -40,7 +40,6 @@ func _input(event):
 		# Initialization of the plugin goes here.
 		key_pressed_once = true
 		var parsed_files = Collect_ModelFiles("res://")
-		print(parsed_files)
 		Reset_Parameters()
 		
 		Parse_ModelFiles(parsed_files)
@@ -208,9 +207,6 @@ func Clean_Info(info : Array, key_type : int) -> Array:
 			if node["type"] == DICT_TYPE_DYNAMIC_NODE:
 				if node["parent"] == "." and current_file != "":
 					for n2s in Node2Script:
-						#print(current_file.rsplit("/")[-1])
-						#print(n2s)
-						#print("----")
 						if current_file.rsplit("/")[-1] in n2s["path"]:
 							node["parent"] = n2s["node"]
 
@@ -250,6 +246,8 @@ func Draw_Signals():
 
 func Create_MarkdownFile():
 	md_file = File.new()
+	if md_file.file_exists("res://ModelDocumentation.md"):
+		printerr("WARNING! ModelDocumentation.md will be overwritten!!!! ")
 	md_file.open("res://ModelDocumentation.md", File.WRITE_READ)
 	md_file.store_string("Limitation: \n")		
 	md_file.store_string("Nodes have to have unique names \n")	
