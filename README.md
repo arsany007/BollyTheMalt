@@ -55,17 +55,17 @@ SelectIcePoop -->|para_score| HUD
 	- [ ] Parse Comments??
 	- [ ] Scan scripts for functions? + add them related to the Node?
 		
-	4. Publish Plugin (ex https://github.com/ClarkThyLord/Voxel-Core)
-		a. Standalone Git repo
-		b. Rename Plugin to Model_DiagramGen
-		c. versioning
-		d. ReadMe ( plugin description, limitation, example, usage..)
-		e. License File
-		f. Upload to asset_liberary (https://godotengine.org/asset-library/asset)
+- [ ] Publish Plugin (ex https://github.com/ClarkThyLord/Voxel-Core)
+	- [ ] Standalone Git repo
+	- [ ] Rename Plugin to Model_DiagramGen
+	- [ ] versioning
+	- [ ] ReadMe ( plugin description, limitation, example, usage..)
+	- [ ] License File
+	- [ ] Upload to asset_liberary (https://godotengine.org/asset-library/asset)
 		
-	5. Change plugin Interface ( Button --> Shortcut key)
+- [x] Change plugin Interface ( Button --> Shortcut key)
 
-	6. Test Env and Testing
+- [x] Test Env and Testing
 
 	
 
