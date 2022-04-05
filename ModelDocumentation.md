@@ -13,6 +13,7 @@
 ### Arrows syntax
 > Parent to child relation "--->" <br>
 > Signal call relation "-.->" 
+### Diagram
 
 ```mermaid 
  flowchart LR 
