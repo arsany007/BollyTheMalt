@@ -1,1 +1,2 @@
-xcopy /S /Y /D /L C:\Personal\GameDevelopment\Personal_GitRepo\BollyTheMalt\addons\Model_DiagramGen C:\Personal\GameDevelopment\Personal_GitRepo\Model_DiagramGen\addons\Model_DiagramGen
+xcopy /S /Y /D C:\Users\Arsany\Desktop\GameDevelopment\Projects\BollyTheMalt\addons\Model_DiagramGen C:\Users\Arsany\Desktop\GameDevelopment\Projects\Plugin_Development\Model_DiagramGen\addons\Model_DiagramGen
+xcopy /S /Y /D C:\Users\Arsany\Desktop\GameDevelopment\Projects\Plugin_Development\Model_DiagramGen\addons\Model_DiagramGen C:\Users\Arsany\Desktop\GameDevelopment\Projects\BollyTheMalt\addons\Model_DiagramGen
