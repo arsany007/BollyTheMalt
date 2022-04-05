@@ -263,7 +263,6 @@ func Create_MarkdownFile():
 	md_file.open("res://ModelDocumentation.md", File.WRITE_READ)
 
 	var Heading = """
-<style>.mermaid svg { height: auto; }</style> <br>
 # **Model Architecture**
 ## Block Diagram
 		
@@ -277,6 +276,8 @@ func Create_MarkdownFile():
 ### Arrows syntax
 > Parent to child relation "--->" <br>
 > Signal call relation "-.->" 
+### Diagram
+<style>.mermaid svg { height: auto; }</style> <br>
 """
 			
 	md_file.store_string(Heading)

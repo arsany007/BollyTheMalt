@@ -1,5 +1,4 @@
 
-<style>.mermaid svg { height: auto; }</style> <br>
 # **Model Architecture**
 ## Block Diagram
 		
@@ -14,6 +13,7 @@
 > Parent to child relation "--->" <br>
 > Signal call relation "-.->" 
 ### Diagram
+<style>.mermaid svg { height: auto; }</style> <br>
 
 ```mermaid 
  flowchart LR 
