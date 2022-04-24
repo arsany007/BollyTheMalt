@@ -34,3 +34,7 @@ func _on_Button_pressed():
 
 func _on_Button2_pressed():
 	game_over()
+
+
+func _on_HUD_New_Game():
+	pass # Replace with function body.

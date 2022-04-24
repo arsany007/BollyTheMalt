@@ -1,14 +1,14 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://Maze.gd" type="Script" id=1]
-[ext_resource path="res://TileMap.gd" type="Script" id=2]
-[ext_resource path="res://SelectIcePoop.gd" type="Script" id=3]
-[ext_resource path="res://Globals.gd" type="Script" id=4]
-[ext_resource path="res://HUD.tscn" type="PackedScene" id=5]
-[ext_resource path="res://PlayerKini.tscn" type="PackedScene" id=6]
-[ext_resource path="res://IcePoop.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Levels/Level1/Maze.gd" type="Script" id=1]
+[ext_resource path="res://Levels/Level1/TileMap.gd" type="Script" id=2]
+[ext_resource path="res://Levels/Level1/SelectIcePoop.gd" type="Script" id=3]
+[ext_resource path="res://Levels/Level1/Globals.gd" type="Script" id=4]
+[ext_resource path="res://Levels/Level1/HUD.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Levels/Level1/PlayerKini.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Levels/Level1/IcePoop.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Sounds/eating.wav" type="AudioStream" id=8]
-[ext_resource path="res://Maze.tres" type="TileSet" id=18]
+[ext_resource path="res://Levels/Level1/Maze.tres" type="TileSet" id=18]
 
 [node name="Maze" type="Node2D"]
 script = ExtResource( 1 )

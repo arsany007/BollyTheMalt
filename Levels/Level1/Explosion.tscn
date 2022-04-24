@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://art/Explosion/spritesheet.png" type="Texture" id=1]
-[ext_resource path="res://Explosion.gd" type="Script" id=2]
+[ext_resource path="res://Levels/Level1/Explosion.gd" type="Script" id=2]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Explode"
@@ -41,11 +41,9 @@ scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 1 )
 hframes = 3
 vframes = 3
-frame = 7
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../..")
 anims/Explode = SubResource( 1 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-visible = false

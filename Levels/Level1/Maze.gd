@@ -3,7 +3,7 @@ extends Node2D
 onready var globals = get_node("Globals")
 onready var Map = $TileMap
 onready var PlayerKini = $PlayerKini
-onready var explode = preload("res://Explosion.tscn").instance()
+onready var explode = preload("res://Levels/Level1/Explosion.tscn").instance()
 
 
 
@@ -67,7 +67,7 @@ func AddIcePoops():
 		nodes.queue_free()
 	
 	for Icepoop_key in globals.Icepoops.keys():	
-		var Icepoop_node = preload("res://IcePoop.tscn")
+		var Icepoop_node = preload("res://Levels/Level1/IcePoop.tscn")
 		var Icepoop_instance = Icepoop_node.instance()
 		Icepoop_instance.get_node("Sprite").texture = load("res://art/" + Icepoop_key)
 		
